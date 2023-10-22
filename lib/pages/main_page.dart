@@ -32,18 +32,35 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 : const FaIcon(
                     FontAwesomeIcons.floppyDisk,
                   ),
-            onPressed: () => _tabController.index == 0
-                ? showDialog(
-                    context: context,
-                    builder: (_) => const AlertDialog(content: ContactForm()))
-                : print('Pag das configs')),
+            onPressed: () {
+              _tabController.index == 0
+                  ? showDialog(
+                          context: context,
+                          builder: (_) =>
+                              const AlertDialog(content: ContactForm()))
+                      .then((value) {
+                      // This line here triggers ContactListPage refreshing because of UniqueKey beign passe to it constructor on line 60
+                      // When setState is called, a new key is generated, forcing the ContactListPage setup to be called again
+                      if (value) {
+                        setState(() {});
+                      }
+                    })
+                  : showDialog(
+                      context: context,
+                      builder: (_) => const AlertDialog(
+                            content: Text(
+                                "Página ainda não implementada! Perdão pelo transtorno."),
+                          ));
+            }),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
           child: TabBarView(
             controller: _tabController,
-            children: const [
-              ContactListPage(),
-              Center(
+            children: [
+              ContactListPage(
+                key: UniqueKey(),
+              ),
+              const Center(
                 child: Text('CONFIGS'),
               )
             ],

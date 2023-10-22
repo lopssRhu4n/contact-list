@@ -67,14 +67,14 @@ class _ContactFormState extends State<ContactForm> {
     if (isRequired(nameController) && isRequired(phoneController)) {
       var data = {
         "name": nameController.text,
-        "phoneNumber": int.parse(phoneController.text),
+        "phoneNumber": int.parse(phoneController.text.replaceAll(" ", "")),
         "facebookUser": facebookController.text,
         "instagramUser": instaController.text,
         "photoUrl": photoUrlController.text
       };
       var model = await contactRepo.save(data);
       if (model != null) {
-        showDialog(
+        await showDialog(
             context: context,
             builder: (_) => const AlertDialog(
                   content: Text('Contato salvo corretamente!'),

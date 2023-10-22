@@ -12,10 +12,10 @@ class ContactModel implements Model {
   void fromJson(Map<String, dynamic> json) {
     objId = json['objectId'];
     name = json['name'];
-    photoUrl = json['photoUrl'];
+    photoUrl = json['photoUrl'] ?? "";
     phoneNumber = json['phoneNumber'];
-    facebookUser = json['facebookUser'];
-    instagramUser = json['instagramUser'];
+    facebookUser = json['facebookUser'] ?? "";
+    instagramUser = json['instagramUser'] ?? "";
   }
 
   @override

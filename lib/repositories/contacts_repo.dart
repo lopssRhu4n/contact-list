@@ -14,8 +14,9 @@ class ContactRepository implements Repository<ContactModel> {
   Future<ContactModel?> save(Map<String, dynamic> json) async {
     try {
       var res = await http.post('Contact', data: json);
-      if (res.statusCode == 200) {
+      if (res.statusCode == 201) {
         var model = ContactModel();
+        json["objectId"] = res.data["objectId"];
         model.fromJson(json);
         return model;
       }
