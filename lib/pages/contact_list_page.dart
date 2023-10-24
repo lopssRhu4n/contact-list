@@ -97,11 +97,15 @@ class _ContactListPageState extends State<ContactListPage> {
                             height: 80,
                             child: ListTile(
                               onTap: () {
-                                Navigator.push(
+                                Navigator.push<bool?>(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) =>
-                                            EditContactPage(contact: contact)));
+                                        builder: (_) => EditContactPage(
+                                            contact: contact))).then((value) {
+                                  if (value != null && value) {
+                                    setup();
+                                  }
+                                });
                               },
                               shape: RoundedRectangleBorder(
                                   side: const BorderSide(

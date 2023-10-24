@@ -94,18 +94,18 @@ class _ContactFormState extends State<ContactForm> {
     var data = arrangeUpdateData();
     var wasUpdated = await contactRepo.update(widget.model!.objId, data);
     if (wasUpdated) {
-      showDialog(
+      await showDialog(
           context: context,
           builder: (_) =>
               const AlertDialog(content: Text('Contato atualizado!')));
-      Navigator.pop(context);
+      Navigator.of(context).pop(true);
     } else {
-      showDialog(
+      await showDialog(
           context: context,
           builder: (_) => const AlertDialog(
                 content: Text('Não foi possível atualizar o contato'),
               ));
-      Navigator.pop(context);
+      Navigator.of(context).pop(false);
     }
   }
 
