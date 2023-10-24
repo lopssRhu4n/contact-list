@@ -34,14 +34,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   ),
             onPressed: () {
               _tabController.index == 0
-                  ? showDialog(
+                  ? showDialog<bool?>(
                           context: context,
                           builder: (_) =>
                               const AlertDialog(content: ContactForm()))
                       .then((value) {
                       // This line here triggers ContactListPage refreshing because of UniqueKey beign passe to it constructor on line 60
                       // When setState is called, a new key is generated, forcing the ContactListPage setup to be called again
-                      if (value) {
+                      if (value != null && value) {
                         setState(() {});
                       }
                     })
