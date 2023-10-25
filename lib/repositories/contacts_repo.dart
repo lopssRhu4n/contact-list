@@ -81,7 +81,7 @@ class ContactRepository implements Repository<ContactModel> {
   @override
   Future<bool> update(String objId, Map<String, dynamic> data) async {
     try {
-      var res = await http.put('Contact/$objId', data: data);
+      await http.put('Contact/$objId', data: data);
       return true;
     } catch (e) {
       return false;
