@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:contact_list/models/contact_model.dart';
 import 'package:contact_list/pages/edit_contact_page.dart';
 import 'package:contact_list/repositories/contacts_repo.dart';
@@ -117,7 +118,8 @@ class _ContactListPageState extends State<ContactListPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text("Nome: ${contact.name}"),
-                                  Text("Phone: ${contact.phoneNumber}"),
+                                  Text(
+                                      "Phone: ${UtilBrasilFields.obterTelefone(contact.phoneNumber.toString())}"),
                                 ],
                               ),
                               leading: contact.photoUrl != ""

@@ -2,11 +2,13 @@
 
 import 'dart:io';
 
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:contact_list/models/contact_model.dart';
 import 'package:contact_list/repositories/contacts_repo.dart';
 import 'package:contact_list/widgets/photo_picker_bottom_sheet.dart';
 import 'package:contact_list/widgets/text_input_with_icon_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -44,7 +46,6 @@ class _ContactFormState extends State<ContactForm> {
 
       var completePath = path + basename(photo!.path);
       await photo!.saveTo(completePath);
-      // ignore: use_build_context_synchronously
       await GallerySaver.saveImage(photo!.path);
 
       setState(() {
@@ -115,7 +116,8 @@ class _ContactFormState extends State<ContactForm> {
       data['name'] = nameController.text;
     }
     if (phoneController.text != "") {
-      data['phoneNumber'] = int.parse(phoneController.text);
+      data['phoneNumber'] =
+          int.parse(UtilBrasilFields.removeCaracteres(phoneController.text));
     }
     if (instaController.text != "") {
       data['instagramUser'] = instaController.text;
@@ -136,7 +138,8 @@ class _ContactFormState extends State<ContactForm> {
     contactRepo = ContactRepository();
     if (widget.model != null) {
       nameController.text = widget.model!.name;
-      phoneController.text = widget.model!.phoneNumber.toString();
+      phoneController.text =
+          UtilBrasilFields.obterTelefone(widget.model!.phoneNumber.toString());
       instaController.text = widget.model!.instagramUser ?? "";
       facebookController.text = widget.model!.facebookUser ?? "";
 
@@ -212,6 +215,10 @@ class _ContactFormState extends State<ContactForm> {
               textController: phoneController,
               icon: FontAwesomeIcons.phone,
               textType: TextInputType.phone,
+              formatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                TelefoneInputFormatter()
+              ],
             ),
             const SizedBox(
               height: 30,

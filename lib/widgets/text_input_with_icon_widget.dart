@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TextInputWithIcon extends StatefulWidget {
@@ -6,13 +7,15 @@ class TextInputWithIcon extends StatefulWidget {
   final TextEditingController textController;
   final IconData icon;
   final TextInputType? textType;
+  final List<TextInputFormatter>? formatters;
 
   const TextInputWithIcon(
       {super.key,
       required this.text,
       required this.textController,
       required this.icon,
-      this.textType});
+      this.textType,
+      this.formatters});
 
   @override
   State<TextInputWithIcon> createState() => _TextInputWithIconState();
@@ -23,6 +26,7 @@ class _TextInputWithIconState extends State<TextInputWithIcon> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.textController,
+      inputFormatters: widget.formatters ?? [],
       decoration: InputDecoration(
           labelStyle: const TextStyle(fontSize: 10, color: Colors.deepPurple),
           enabledBorder: const OutlineInputBorder(
